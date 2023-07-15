@@ -9,3 +9,36 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model User {
+  userId Int @id @default(autoincrement())
+  userName String @db.VarChar(255)
+  userEmail String @db.VarChar(100)
+  userPassword String @db.VarChar(20)
+  userAvatar String
+  createdAt DateTime @default(now())
+  publications Publication []
+  session Session []
+}
+
+model Publication {
+  publicationId Int @id @default(autoincrement())
+  publicationImage String
+  publicationTitle String @db.VarChar(80)
+  publicationText String
+  dateToPublished DateTime
+  published Boolean @default(false)
+  socialMedia String @db.VarChar(50)
+  createdAt DateTime @default(now())
+  userId Int
+  Users User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+}
+
+model Session {
+  id Int @id @default(autoincrement())
+  userId Int
+  token String
+  createdAt DateTime @default(now())
+  User User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  }
