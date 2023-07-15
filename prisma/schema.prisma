@@ -19,6 +19,7 @@ model User {
   userAvatar String
   createdAt DateTime @default(now())
   publications Publication []
+  session Session []
 }
 
 model Publication {
@@ -33,3 +34,11 @@ model Publication {
   userId Int
   Users User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
+
+model Session {
+  id Int @id @default(autoincrement())
+  userId Int
+  token String
+  createdAt DateTime @default(now())
+  User User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  }
