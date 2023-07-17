@@ -64,6 +64,8 @@ Additionally, "Social Postify" features an alert mechanism that notifies users, 
 
 - ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+- ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+
 
 ## Enviroments Variables
 
