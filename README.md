@@ -1,73 +1,75 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Postify
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📝 Description
 
-## Description
+"Social Postify" is a web application that allows users to create and schedule posts for multiple social media platforms such as Facebook, Instagram, Twitter, and LinkedIn. Users can create customized posts with images, headlines, text, and select specific dates and times for each post. The system supports scheduling multiple posts and provides a clear overview of the scheduled posts.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Additionally, "Social Postify" features an alert mechanism that notifies users, the owners of the posts, when they should publish the post. This way, users don't forget when to post and can keep their social media accounts up to date.
 
-## Installation
 
-```bash
-$ npm install
+## API Documentation
+
+#### Signup Route
+
+```http
+  POST /auth/signup
 ```
 
-## Running the app
+| Params   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `name` | `string` | User name |
+| `email` | `string` | User e-mail |
+| `password` | `string` | User password |
+| `avatar` | `string` | user avatar link |
 
-```bash
-# development
-$ npm run start
+#### Signin Route
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```http
+  POST /auth/signin
 ```
 
-## Test
+| Params   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `email` | `string` | User e-mail |
+| `password` | `string` | User password |
 
-```bash
-# unit tests
-$ npm run test
+#### Create a publication route
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```http
+  POST /publication
 ```
 
-## Support
+| Params   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `image` | `link` | Image link of publication |
+| `title` | `string` | Publication title |
+| `text` | `string` | Publication description |
+| `dateToPublish` | `Date` | Publish date |
+| `published` | `boolean` | is published? |
+| `socialMedia` | `string` | Social media where publication will be published |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Get all publications from user
 
-## Stay in touch
+```http
+  GET /publications
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Technologies
 
-## License
 
-Nest is [MIT licensed](LICENSE).
+- ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+
+- ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+
+- ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+
+## Enviroments Variables
+
+To run this projects, you will need this envioroments variables on your .env:
+
+`DATABASE_URL`
+
+`JWT_SECRET_KEY`
+
