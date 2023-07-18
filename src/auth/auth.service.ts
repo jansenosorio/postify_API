@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { AuthSignupDTO } from './dto/auth.signup.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -9,6 +14,9 @@ import { UserDTO } from 'src/user/dto/user.dto';
 
 @Injectable()
 export class AuthService {
+  private AUDIENCE = 'users';
+  private ISSUER = 'Driven';
+
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
@@ -79,11 +87,14 @@ export class AuthService {
     const token = this.jwtService.sign(
       {
         email: user.userEmail,
-        password: user.userPassword,
+        userId: user.userId,
       },
       {
         expiresIn: '60min',
         secret: secret,
+        subject: String(user.userId),
+        issuer: this.ISSUER,
+        audience: this.AUDIENCE,
       },
     );
 
@@ -104,5 +115,16 @@ export class AuthService {
       );
 
     return { access_token: createdToken.token };
+  }
+
+  checkToken(token: string) {
+    const secret = this.configService.get('JWT_SECRET_KEY');
+    try {
+      const data = this.jwtService.verify(token, { secret: secret });
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error);
+    }
   }
 }
