@@ -94,8 +94,6 @@ export class AuthService {
       },
     });
 
-    console.log(createdToken);
-
     if (!createdToken)
       throw new HttpException(
         {
