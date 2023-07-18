@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthSignDTO } from './dto/auth.signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserDTO } from 'src/user/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -69,16 +70,16 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
 
-    return this.createToken(body);
+    return this.createToken(user);
   }
 
-  createToken(body: AuthSignDTO) {
+  async createToken(user: UserDTO) {
     const secret = this.configService.get('JWT_SECRET_KEY');
 
     const token = this.jwtService.sign(
       {
-        email: body.email,
-        password: body.password,
+        email: user.userEmail,
+        password: user.userPassword,
       },
       {
         expiresIn: '60min',
@@ -86,6 +87,24 @@ export class AuthService {
       },
     );
 
-    return { access_token: token };
+    const createdToken = await this.prisma.session.create({
+      data: {
+        userId: user.userId,
+        token,
+      },
+    });
+
+    console.log(createdToken);
+
+    if (!createdToken)
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Intern problem, try again',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+
+    return { access_token: createdToken.token };
   }
 }
