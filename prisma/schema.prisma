@@ -25,9 +25,9 @@ model User {
 model Publication {
   publicationId Int @id @default(autoincrement())
   publicationImage String
-  publicationTitle String @db.VarChar(80)
+  publicationTitle String @unique @db.VarChar(80)
   publicationText String
-  dateToPublished DateTime
+  dateToPublished String
   published Boolean @default(false)
   socialMedia String @db.VarChar(50)
   createdAt DateTime @default(now())

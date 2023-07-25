@@ -2,6 +2,7 @@ import {
   IsBooleanString,
   IsISO8601,
   IsNotEmpty,
+  IsNumberString,
   IsString,
 } from 'class-validator';
 
@@ -25,4 +26,7 @@ export class PublicationDTO {
   @IsString()
   @IsNotEmpty()
   socialMedia: string;
+  @IsNumberString()
+  @IsNotEmpty()
+  userId: string;
 }
