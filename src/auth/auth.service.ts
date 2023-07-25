@@ -114,7 +114,7 @@ export class AuthService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
 
-    return { access_token: createdToken.token };
+    return { user: createdToken.userId, token: createdToken.token };
   }
 
   checkToken(token: string) {
