@@ -1,9 +1,18 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+} from '@nestjs/common';
 import { AuthService } from '../auth.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -12,10 +21,11 @@ export class AuthGuard implements CanActivate {
 
     try {
       const data = this.authService.checkToken(token);
-      console.log(data);
+      const user = await this.userService.findUserById(Number(data.userId));
+      console.log(user);
+      request.user = user;
     } catch (error) {
-      console.log(error);
-      return false;
+      throw new BadRequestException(error);
     }
 
     return true;
